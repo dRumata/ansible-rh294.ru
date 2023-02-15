@@ -1,0 +1,6 @@
+---
+# handles file for ansible-vsftpd
+- name: restart vsftpd
+  service:
+    name: "{{ vsftpd_service }}"
+    state: restarted
