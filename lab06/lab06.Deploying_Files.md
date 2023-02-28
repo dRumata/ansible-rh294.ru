@@ -12,6 +12,3 @@ LAB 6. Deploying Files to Managed Hosts
 
 6. Убедитесь, что playbook, включенный в файл **motd.yml**, был выполнен правильно.
 
-```console
-[student@workstation ~]$ lab file-review grade
-```
