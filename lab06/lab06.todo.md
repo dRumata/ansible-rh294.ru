@@ -7,3 +7,4 @@ serverb.lab.example.com
 
 mkdir /home/student/control-review/files
 очистить playbook.yml
+
