@@ -1,4 +1,4 @@
-LAB 8. Simplifying Playbooks with Roles. Solution.
+LAB 9. Troubleshooting Ansible. Solution.
 
 1. В каталоге **~/troubleshoot-review** проверьте сценария **secure-web.yml**. Этот сценарий содержит один play, который настраивает Apache HTTPD с использованием TLS/SSL для хостов в группе **webservers**. Устраните проблему, о которой сообщается. 
 1.1. On workstation, change to the /home/student/troubleshoot-review project
