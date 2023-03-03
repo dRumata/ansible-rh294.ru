@@ -1,0 +1,540 @@
+<!DOCTYPE html><html><head>
+      <title>lab08.Simplifying_Playbooks_with_Roles.Solution</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:////Users/pv/.vscode/extensions/shd101wyy.markdown-preview-enhanced-0.6.7/node_modules/@shd101wyy/mume/dependencies/katex/katex.min.css">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <style>
+      /**
+ * prism.js Github theme based on GitHub's theme.
+ * @author Sam Clarke
+ */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
+
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+  /* border: 1px solid #ddd; */
+  border-radius: 3px;
+  /* background: #fff; */
+  background: #f5f5f5;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
+}
+
+.token.comment,
+.token.blockquote {
+  color: #969896;
+}
+
+.token.cdata {
+  color: #183691;
+}
+
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
+}
+
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
+}
+
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
+}
+
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
+
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+/* JSON */
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+/* CSS */
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+/* YAML */
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+/* Ruby */
+.language-ruby .token.function {
+  color: #333;
+}
+
+/* Markdown */
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+/* Makefile */
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+/* Bash */
+.language-bash .token.keyword {
+  color: #0086b3;
+}
+
+/* highlight */
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p,html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div{display:inline}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  300px/2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <p>LAB 8. Simplifying Playbooks with Roles. Solution.</p>
+<ol>
+<li>Change to the <strong>/home/student/role-review</strong> working directory.</li>
+</ol>
+<pre data-role="codeBlock" data-info="console" class="language-console"><code>[student@workstation ~]$ cd ~/role-review
+[student@workstation role-review]$
+</code></pre><ol start="2">
+<li>Create a playbook named <strong>web_dev_server.yml</strong> with a single play named Configure Dev Web** Server**. Configure the play to target the host group <strong>dev_webserver</strong>. Do not add any roles or tasks to the play yet.<br>
+Ensure that the play forces handlers to execute, because you may encounter an error while developing the playbook.<br>
+Once complete, the <strong>/home/student/role-review/web_dev_server.yml</strong> playbook contains:</li>
+</ol>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Configure Dev Web Server
+  <span class="token key atrule">hosts</span><span class="token punctuation">:</span> dev_webserver
+  <span class="token key atrule">force_handlers</span><span class="token punctuation">:</span> yes
+</pre><ol start="3">
+<li>Check the syntax of the playbook. Run the playbook. The syntax check should pass and the playbook should run successfully.</li>
+</ol>
+<pre data-role="codeBlock" data-info="console" class="language-console"><code>[student@workstation role-review]$ ansible-playbook --syntax-check web_dev_server.yml
+
+playbook: web_dev_server.yml
+[student@workstation role-review]$ ansible-playbook web_dev_server.yml
+PLAY [Configure Dev Web Server] **********************************************
+
+TASK [Gathering Facts] *******************************************************
+ok: [servera.lab.example.com]
+
+PLAY RECAP *******************************************************************
+servera.lab.example.com : ok=1 changed=0 unreachable=0 failed=0
+</code></pre><ol start="4">
+<li>Make sure that playbook&apos;s role dependencies are installed.<br>
+The <strong>apache.developer_configs</strong> role that you will create depends on the <strong>infra.apache</strong> role. Create a <strong>roles/requirements.yml</strong> file. It should install the role from the Git repository at <strong><a href="mailto:git@workstation.lab.example.com">git@workstation.lab.example.com</a>:infra/apache</strong>, use version <strong>v1.4</strong>, and name it <strong>infra.apache</strong> locally. You can assume that your SSH keys are configured to allow you to get roles from that repository automatically. Install the role with the ansible-galaxy command.<br>
+In addition, install the <em>rhel-system-roles</em> package if not present.</li>
+</ol>
+<p>4.1. Create a roles subdirectory for the playbook project.</p>
+<pre data-role="codeBlock" data-info="console" class="language-console"><code>[student@workstation role-review]$ mkdir -v roles
+mkdir: created directory &apos;roles&apos;
+</code></pre><p>4.2. Create a <strong>roles/requirements.yml</strong> file and add an entry for the infra.apache role. Use version <strong>v1.4</strong> from the role&apos;s git repository.<br>
+Once complete, the <strong>roles/requirements.yml</strong> file contains:</p>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> infra.apache
+  <span class="token key atrule">src</span><span class="token punctuation">:</span> git@workstation.lab.example.com<span class="token punctuation">:</span>infra/apache
+  <span class="token key atrule">scm</span><span class="token punctuation">:</span> git
+  <span class="token key atrule">version</span><span class="token punctuation">:</span> v1.4
+</pre><p>4.3. Install the project dependencies.</p>
+<pre data-role="codeBlock" data-info="console" class="language-console"><code>[student@workstation role-review]$ ansible-galaxy install -r roles/requirements.yml -p roles
+- extracting infra.apache to /home/student/role-review/roles/infra.apache
+- infra.apache (v1.4) was installed successfully
+</code></pre><p>4.4. Install the RHEL System Roles package if not present. This was installed during an earlier exercise.</p>
+<pre data-role="codeBlock" data-info="console" class="language-console"><code>[student@workstation role-review]$ sudo yum install rhel-system-roles
+</code></pre><ol start="5">
+<li>Initialize a new role named <strong>apache.developer_configs</strong> in the roles subdirectory. Add the infra.apache role as a dependency for the new role, using the same information for name, source, version, and version control system as the <strong>roles/requirements.yml</strong> file.<br>
+The <strong>developer_tasks.yml</strong> file in the project directory contains tasks for the role. Move this file to the correct location to be the tasks file for this role, and replace the existing file in that location.<br>
+The <strong>developer.conf.j2</strong> file in the project directory is a Jinja2 template used by the tasks file. Move it to the correct location for template files used by this role.</li>
+</ol>
+<p>5.1. Use the ansible-galaxy init to create a role skeleton for the <strong>apache.developer_configs</strong> role.</p>
+<pre data-role="codeBlock" data-info="console" class="language-console"><code>[student@workstation role-review]$ cd roles
+[student@workstation roles]$ ansible-galaxy init apache.developer_configs
+- apache.developer_configs was created successfully
+[student@workstation roles]$ cd ..
+[student@workstation role-review]$
+</code></pre><p>5.2. Update the <strong>roles/apache.developer_configs/meta/main.yml</strong> file of the <strong>apache.developer_configs</strong> role to reflect a dependency on the <strong>infra.apache role</strong>.<br>
+After editing, the dependencies variable is defined as follows:</p>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml"><span class="token key atrule">dependencies</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> infra.apache
+    <span class="token key atrule">src</span><span class="token punctuation">:</span> git@workstation.lab.example.com<span class="token punctuation">:</span>infra/apache
+    <span class="token key atrule">scm</span><span class="token punctuation">:</span> git
+    <span class="token key atrule">version</span><span class="token punctuation">:</span> v1.4
+</pre><p>5.3. Overwrite the role&apos;s <strong>tasks/main.yml</strong> file with the <strong>developer_tasks.yml</strong> file.</p>
+<pre data-role="codeBlock" data-info="console" class="language-console"><code>[student@workstation role-review]$ mv -v developer_tasks.yml roles/apache.developer_configs/tasks/main.yml
+renamed &apos;developer_tasks.yml&apos; -&gt; &apos;roles/apache.developer_configs/tasks/main.yml&apos;
+</code></pre><p>5.4. Place the <strong>developer.conf.j2</strong> file in the role&apos;s templates directory.</p>
+<pre data-role="codeBlock" data-info="console" class="language-console"><code>[student@workstation role-review]$ mv -v developer.conf.j2 roles/apache.developer_configs/templates/
+renamed &apos;developer.conf.j2&apos; -&gt; &apos;roles/apache.developer_configs/templates/developer.conf.j2&apos;
+</code></pre><ol start="6">
+<li>The <strong>apache.developer_configs</strong> role will process a list of users defined in a variable named <strong>web_developers</strong>. The <strong>web_developers.yml</strong> file in the project directory defines the <strong>web_developers</strong> user list variable. Review this file and use it to define the <strong>web_developers</strong> variable for the development web server host group.</li>
+</ol>
+<p>6.1. Review the <strong>web_developers.yml</strong> file.</p>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml"><span class="token punctuation">---</span>
+<span class="token key atrule">web_developers</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">username</span><span class="token punctuation">:</span> jdoe
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> John Doe
+    <span class="token key atrule">user_port</span><span class="token punctuation">:</span> <span class="token number">9081</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">username</span><span class="token punctuation">:</span> jdoe2
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> Jane Doe
+    <span class="token key atrule">user_port</span><span class="token punctuation">:</span> <span class="token number">9082</span>
+</pre><p>A name, username, user_port is defined for each web developer.</p>
+<p>6.2. Place the <strong>web_developers.yml</strong> in the <strong>group_vars/dev_webserver</strong> subdirectory.</p>
+<pre data-role="codeBlock" data-info="console" class="language-console"><code>[student@workstation role-review]$ mkdir -pv group_vars/dev_webserver
+mkdir: created directory &apos;group_vars&apos;
+mkdir: created directory &apos;group_vars/dev_webserver&apos;
+[student@workstation role-review]$ mv -v web_developers.yml group_vars/dev_webserver/
+renamed &apos;web_developers.yml&apos; -&gt; &apos;group_vars/dev_webserver/web_developers.yml&apos;
+</code></pre><ol start="7">
+<li>Add the role <strong>apache.developer_configs</strong> to the play in the <strong>web_dev_server.yml</strong> playbook.<br>
+The edited playbook:</li>
+</ol>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Configure Dev Web Server
+  <span class="token key atrule">hosts</span><span class="token punctuation">:</span> dev_webserver
+  <span class="token key atrule">force_handlers</span><span class="token punctuation">:</span> yes
+  <span class="token key atrule">roles</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> apache.developer_configs
+</pre><ol start="8">
+<li>Check the syntax of the playbook. Run the playbook. The syntax check should pass, but the playbook should fail when the <strong>infra.apache</strong> role attempts to restart Apache HTTPD.</li>
+</ol>
+<pre data-role="codeBlock" data-info="console" class="language-console"><code>[student@workstation role-review]$ ansible-playbook --syntax-check web_dev_server.yml
+
+playbook: web_dev_server.yml
+[student@workstation role-review]$ ansible-playbook web_dev_server.yml
+
+PLAY [Configure Dev Web Server] **********************************************
+
+TASK [Gathering Facts] *******************************************************
+ok: [servera.lab.example.com]
+...output omitted...
+
+TASK [infra.apache : Install a skeleton index.html] ***************************
+skipping: [servera.lab.example.com]
+
+TASK [apache.developer_configs : Create user accounts] ***********************
+changed: [servera.lab.example.com] =&gt; (item={u&apos;username&apos;: u&apos;jdoe&apos;, u&apos;user_port&apos;:
+ 9081, u&apos;name&apos;: u&apos;John Doe&apos;})
+changed: [servera.lab.example.com] =&gt; (item={u&apos;username&apos;: u&apos;jdoe2&apos;, u&apos;user_port&apos;:
+ 9082, u&apos;name&apos;: u&apos;Jane Doe&apos;})
+...output omitted...
+
+RUNNING HANDLER [infra.apache : restart firewalld] ***************************
+changed: [servera.lab.example.com]
+
+RUNNING HANDLER [infra.apache : restart apache] ******************************
+fatal: [servera.lab.example.com]: FAILED! =&gt; {&quot;changed&quot;: false, &quot;msg&quot;: &quot;Unable to
+restart service httpd: Job for httpd.service failed because the control process
+exited with error code. See \&quot;systemctl status httpd.service\&quot; and \&quot;journalctl -
+xe\&quot; for details.\n&quot;}
+
+NO MORE HOSTS LEFT ***********************************************************
+to retry, use: --limit @/home/student/role-review/web_dev_server.retry
+
+PLAY RECAP *******************************************************************
+servera.lab.example.com : ok=13 changed=11 unreachable=0 failed=1
+skipped=1 rescued=0 ignored=0
+</code></pre><p>An error occurs when the <strong>httpd</strong> service is restarted. The <strong>httpd</strong> service daemon cannot bind to the non-standard HTTP ports, due to the SELinux context on those ports.</p>
+<ol start="9">
+<li>Apache HTTPD failed to restart in the preceding step because the network ports it uses for your developers are labeled with the wrong SELinux contexts. You have been provided with a variable file, <strong>selinux.yml</strong>, which can be used with the <strong>rhel-system-roles.selinux</strong> role to fix the issue.<br>
+Create a <strong>pre_tasks</strong> section for your play in the <strong>web_dev_server.yml</strong> playbook. In that section, use a task to include the <strong>rhel-system-roles.selinux</strong> role in a <strong>block/rescue</strong> structure so that it is properly applied. Review the lecture or the documentation for this role to see how to do this.<br>
+Inspect the <strong>selinux.yml</strong> file. Move it to the correct location so that its variables are set for the <strong>dev_webserver</strong> host group.</li>
+</ol>
+<p>9.1. The <strong>pre_tasks</strong> section can be added to the end of the play in the <strong>web_dev_server.yml</strong> playbook.<br>
+You can look at the block in <strong>/usr/share/doc/rhel-system-roles-1.0/selinux/example-selinux-playbook.yml</strong> for a basic outline of how to apply the role, but Red Hat Ansible Engine 2.7 allows you to replace the complex <strong>shell</strong> and <strong>wait_for</strong> logic with the <strong>reboot</strong> module.<br>
+The <strong>pre_tasks</strong> section should contain:</p>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml"><span class="token key atrule">pre_tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Check SELinux configuration
+    <span class="token key atrule">block</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">include_role</span><span class="token punctuation">:</span>
+          <span class="token key atrule">name</span><span class="token punctuation">:</span> rhel<span class="token punctuation">-</span>system<span class="token punctuation">-</span>roles.selinux
+    <span class="token key atrule">rescue</span><span class="token punctuation">:</span>
+      <span class="token comment"># Fail if failed for a different reason than selinux_reboot_required.</span>
+      
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Check for general failure
+        <span class="token key atrule">fail</span><span class="token punctuation">:</span>
+          <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">&quot;SELinux role failed.&quot;</span>
+        <span class="token key atrule">when</span><span class="token punctuation">:</span> not selinux_reboot_required
+      
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Restart managed host
+        <span class="token key atrule">reboot</span><span class="token punctuation">:</span>
+          <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">&quot;Ansible rebooting system for updates.&quot;</span>
+      
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Reapply SELinux role to complete changes
+        <span class="token key atrule">include_role</span><span class="token punctuation">:</span>
+          <span class="token key atrule">name</span><span class="token punctuation">:</span> rhel<span class="token punctuation">-</span>system<span class="token punctuation">-</span>roles.selinux
+</pre><p>9.2. The <strong>selinux.yml</strong> file contains variable definitions for the <strong>rhel-systemroles.selinux</strong> role. Use the file to define variables for the play&apos;s host group.</p>
+<pre data-role="codeBlock" data-info="console" class="language-console"><code>[student@workstation role-review]$ cat selinux.yml
+---
+# variables used by rhel-system-roles.selinux
+
+selinux_policy: targeted
+selinux_state: enforcing
+
+selinux_ports:
+  - ports:
+      - &quot;9081&quot;
+      - &quot;9082&quot;
+    proto: &apos;tcp&apos;
+    setype: &apos;http_port_t&apos;
+    state: &apos;present&apos;
+
+[student@workstation role-review]$ mv -v selinux.yml group_vars/dev_webserver/
+renamed &apos;selinux.yml&apos; -&gt; &apos;group_vars/dev_webserver/selinux.yml&apos;
+</code></pre><ol start="10">
+<li>Check syntax of the final playbook. The syntax check should pass.</li>
+</ol>
+<pre data-role="codeBlock" data-info="console" class="language-console"><code>[student@workstation role-review]$ ansible-playbook --syntax-check web_dev_server.yml
+playbook: web_dev_server.yml
+</code></pre><p>The final <strong>web_dev_server.yml</strong> playbook should read as follows:</p>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Configure Dev Web Server
+  <span class="token key atrule">hosts</span><span class="token punctuation">:</span> dev_webserver
+  <span class="token key atrule">force_handlers</span><span class="token punctuation">:</span> yes
+  <span class="token key atrule">roles</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> apache.developer_configs
+  <span class="token key atrule">pre_tasks</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Check SELinux configuration
+      <span class="token key atrule">block</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">include_role</span><span class="token punctuation">:</span>
+            <span class="token key atrule">name</span><span class="token punctuation">:</span> rhel<span class="token punctuation">-</span>system<span class="token punctuation">-</span>roles.selinux
+      <span class="token key atrule">rescue</span><span class="token punctuation">:</span>
+        <span class="token comment"># Fail if failed for a different reason than selinux_reboot_required.</span>
+          
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Check for general failure
+          <span class="token key atrule">fail</span><span class="token punctuation">:</span>
+            <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">&quot;SELinux role failed.&quot;</span>
+          <span class="token key atrule">when</span><span class="token punctuation">:</span> not selinux_reboot_required
+          
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Restart managed host
+          <span class="token key atrule">reboot</span><span class="token punctuation">:</span>
+            <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">&quot;Ansible rebooting system for updates.&quot;</span>
+          
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Reapply SELinux role to complete changes
+          <span class="token key atrule">include_role</span><span class="token punctuation">:</span>
+            <span class="token key atrule">name</span><span class="token punctuation">:</span> rhel<span class="token punctuation">-</span>system<span class="token punctuation">-</span>roles.selinux
+</pre><blockquote>
+<p>Note<br>
+Whether <strong>pre_tasks</strong> is at the end of the play or in the &quot;correct&quot; position in terms of execution order in the playbook file does not matter to <strong>ansible-playbook</strong>. It will still run the play&apos;s tasks in the correct order.</p>
+</blockquote>
+<ol start="11">
+<li>Run the playbook. It should succeed.</li>
+</ol>
+<pre data-role="codeBlock" data-info="console" class="language-console"><code>[student@workstation role-review]$ ansible-playbook web_dev_server.yml
+
+PLAY [Configure Dev Web Server] **********************************************
+
+TASK [Gathering Facts] *******************************************************
+ok: [servera.lab.example.com]
+
+TASK [include_role : rhel-system-roles.selinux] ******************************
+
+TASK [rhel-system-roles.selinux : Install SELinux python3 tools] *************
+ok: [servera.lab.example.com]
+...output omitted...
+
+TASK [infra.apache : Apache Service is started] ******************************
+changed: [servera.lab.example.com]
+...output omitted...
+
+TASK [apache.developer_configs : Copy Per-Developer Config files] ************
+ok: [servera.lab.example.com] =&gt; (item={u&apos;username&apos;: u&apos;jdoe&apos;, u&apos;user_port&apos;: 9081,
+u&apos;name&apos;: u&apos;John Doe&apos;})
+ok: [servera.lab.example.com] =&gt; (item={u&apos;username&apos;: u&apos;jdoe2&apos;, u&apos;user_port&apos;: 9082,
+u&apos;name&apos;: u&apos;Jane Doe&apos;})
+
+PLAY RECAP *******************************************************************
+servera.lab.example.com : ok=19 changed=3 unreachable=0 failed=0
+skipped=14 rescued=0 ignored=0
+</code></pre><ol start="12">
+<li>Test the configuration of the development web server. Verify that all endpoints are accessibleand serving each developer&apos;s content.</li>
+</ol>
+<pre data-role="codeBlock" data-info="console" class="language-console"><code>[student@workstation role-review]$ curl servera
+servera.lab.example.com has been customized using Ansible.
+[student@workstation role-review]$ curl servera:9081
+This is index.html for user: John Doe (jdoe)
+[student@workstation role-review]$ curl servera:9082
+This is index.html for user: Jane Doe (jdoe2)
+[student@workstation role-review]$
+</code></pre>
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
