@@ -32,85 +32,97 @@ random_var: "This is colon: test"
 ...output omitted...
 ```
 2. Еще раз проверьте синтаксис сценария **secure-web.yml**. Устраните проблему, о которой сообщается
-2.1. Check the syntax of secure-web.yml using ansible-playbook --syntaxcheck
-again.
-```
+
+2.1. Проверьте синтаксис **secure-web.yml** с помощью **ansible-playbook --syntax-check** еще раз.
+``` console
 [student@workstation troubleshoot-review]$ ansible-playbook --syntax-check \
 > secure-web.yml
+
 ERROR! Syntax Error while loading YAML.
-did not find expected '-' indicator
+    did not find expected '-' indicator
+
 The error appears to have been in '/home/student/Ansible-course/troubleshootreview/
 secure-web.yml': line 38, column 10, but may
 be elsewhere in the file depending on the exact syntax problem.
+
 The offending line appears to be:
-- name: start and enable web services
-^ here
+
+        - name: start and enable web services
+        ^ here
 ```
-2.2. Correct any syntax issues in the indentation. Remove the extra space at the beginning
-of the start and enable web services task elements. The resulting change should appear
-as follows:
-```
+2.2. Исправьте все синтаксические ошибки в отступе. Удалите лишние пробелы в начале *start and enable web services* элементов задач. Результирующее изменение должно выглядеть следующим образом:
+``` yaml
 ...output omitted...
-args:
-creates: /etc/pki/tls/certs/serverb.lab.example.com.crt
-- name: start and enable web services
-service:
-name: httpd
-state: started
-enabled: yes
-- name: deliver content
-copy:
-dest: /var/www/vhosts/serverb-secure
-src: html/
+          args:
+            creates: /etc/pki/tls/certs/serverb.lab.example.com.crt
+
+        - name: start and enable web services
+          service:
+            name: httpd
+            state: started
+            enabled: yes
+
+        - name: deliver content
+          copy:
+            dest: /var/www/vhosts/serverb-secure
+            src: html/
 ...output omitted...
 ```
-1. Проверьте синтаксис сценария **secure-web.yml** в третий раз. Устраните проблему, о которой сообщается. 
-3.1. Check the syntax of the secure-web.yml playbook.
-```
-[student@workstation troubleshoot-review]$ ansible-playbook --syntax-check \
-> secure-web.yml
+3. Проверьте синтаксис сценария **secure-web.yml** в третий раз. Устраните проблему, о которой сообщается. 
+
+3.1. Проверьте синтаксис **secure-web.yml** playbook.
+``` console
+[student@workstation troubleshoot-review]$ ansible-playbook --syntax-check secure-web.yml
+
 ERROR! Syntax Error while loading YAML.
-found unacceptable key (unhashable type: 'AnsibleMapping')
+    found unacceptable key (unhashable type: 'AnsibleMapping')
+
 The error appears to have been in '/home/student/Ansible-course/troubleshootreview/
 secure-web.yml': line 13, column 20, but may
 be elsewhere in the file depending on the exact syntax problem.
+
 The offending line appears to be:
-yum:
-name: {{ item }}
-^ here
+
+        yum:
+          name: {{ item }}
+                ^ here
 We could be wrong, but this one looks like it might be an issue with
 missing quotes. Always quote template expression brackets when they
 start a value. For instance:
-with_items:
-- {{ foo }}
+    with_items:
+      - {{ foo }}
+
 Should be written as:
-with_items:
-- "{{ foo }}"
+
+    with_items:
+      - "{{ foo }}"
 ```
-3.2. Correct the item variable in the install web server packages task. Add double
-quotes to {{ item }}. The resulting change should appear as follows:
-```
+
+3.2. Исправьте переменную **item** в задаче **install web server packages**. Добавить двойной кавычки к **{{ item }}**. Результирующее изменение должно выглядеть следующим образом:
+``` yaml
 ...output omitted...
-- name: install web server packages
-yum:
-name: "{{ item }}"
-state: latest
-notify:
-- restart services
-loop:
-- httpd
-- mod_ssl
+        - name: install web server packages
+          yum:
+            name: "{{ item }}"
+            state: latest
+          notify:
+            - restart services
+          loop:
+            - httpd
+            - mod_ssl
 ...output omitted...
 ```
-1. Проверьте синтаксис сценария **secure-web.yml** в четвертый раз. Он не должен показывать никаких синтаксических ошибок. 
-4.1. Review the syntax of the secure-web.yml playbook. It should not show any syntax
-errors.
-```[student@workstation troubleshoot-review]$ ansible-playbook --syntax-check \
-> secure-web.yml
+4. Проверьте синтаксис сценария **secure-web.yml** в четвертый раз. Он не должен показывать никаких синтаксических ошибок. 
+
+4.1. Проверьте синтаксис сценария secure-web.yml. Он не должен показывать никаких синтаксических
+ошибок.
+``` console
+[student@workstation troubleshoot-review]$ ansible-playbook --syntax-check secure-web.yml
+
 playbook: secure-web.yml
 ```
-1. Запустите **secure-web.yml** playbook. Ansible не может подключиться к **serverb.lab.example.com** . Устраните эту проблему. 
-5.1. Run the secure-web.yml playbook. This will fail with an error.
+5. Запустите **secure-web.yml** playbook. Ansible не может подключиться к **serverb.lab.example.com** . Устраните эту проблему. 
+5.1. Запустите secure-web.yml playbook. This will fail with an error.
 ```
 [student@workstation troubleshoot-review]$ ansible-playbook secure-web.yml
 PLAY [create secure web service] ***********************************************
