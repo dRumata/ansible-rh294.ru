@@ -228,9 +228,10 @@ failed: [serverb.lab.example.com] (item=mod_ssl) => {
 ...output omitted...
 ```
 
-8. Запустите **secure-web.yml** playbook еще раз. Это должно завершиться успешно. Используйте специальную команду, чтобы убедиться, что служба httpd запущена.
-8.1. Run the secure-web.yml playbook.
-```
+8. Запустите **secure-web.yml** playbook еще раз. Это должно завершиться успешно. Используйте ad hoc команду, чтобы убедиться, что служба httpd запущена.
+
+8.1. Запустите **secure-web.yml** playbook.
+``` console
 [student@workstation troubleshoot-review]$ ansible-playbook secure-web.yml
 PLAY [create secure web service] ***********************************************
 ...output omitted...
@@ -240,11 +241,11 @@ changed: [serverb.lab.example.com] => (item=mod_ssl)
 ...output omitted...
 TASK [httpd_conf_syntax variable] **********************************************
 ok: [serverb.lab.example.com] => {
-"msg": "The httpd_conf_syntax variable value is {'stderr_lines': [u'Syntax
-OK'], u'changed': True, u'end': u'2018-12-17 23:31:53.191871', 'failed': False,
-u'stdout': u'', u'cmd': [u'/sbin/httpd', u'-t'], u'rc': 0, u'start': u'2018-12-17
-23:31:53.149759', u'stderr': u'Syntax OK', u'delta': u'0:00:00.042112',
-'stdout_lines': [], 'failed_when_result': False}"
+    "msg": "The httpd_conf_syntax variable value is {'stderr_lines': [u'Syntax
+ OK'], u'changed': True, u'end': u'2018-12-17 23:31:53.191871', 'failed': False,
+ u'stdout': u'', u'cmd': [u'/sbin/httpd', u'-t'], u'rc': 0, u'start': u'2018-12-17
+ 23:31:53.149759', u'stderr': u'Syntax OK', u'delta': u'0:00:00.042112',
+ 'stdout_lines': [], 'failed_when_result': False}"
 }
 ...output omitted...
 RUNNING HANDLER [restart services] *********************************************
@@ -252,16 +253,14 @@ changed: [serverb.lab.example.com]
 PLAY RECAP *********************************************************************
 serverb.lab.example.com : ok=10 changed=7 unreachable=0 failed=0
 ```
-8.2. Use an ad hoc command to determine the state of the httpd service on
-serverb.lab.example.com. The httpd service should now be running on
-serverb.lab.example.com.
+
+8.2. Используйте ad hoc комманду, чтобы определить состояние сервиса **httpd** на **serverb.lab.example.com**. **httpd** сервис должен выполнятиься на **serverb.lab.example.com**.
 ```
-[student@workstation troubleshoot-review]$ ansible all -u devops -b \
-> -m command -a 'systemctl status httpd'
+[student@workstation troubleshoot-review]$ ansible all -u devops -b -m command -a 'systemctl status httpd'
 serverb.lab.example.com | CHANGED | rc=0 >>
 ● httpd.service - The Apache HTTP Server
-Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset:
-disabled)
-Active: active (running) since Thu 2019-04-11 03:22:34 EDT; 28s ago
+    Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset:
+ disabled)
+    Active: active (running) since Thu 2019-04-11 03:22:34 EDT; 28s ago
 ...output omitted...
 ```
