@@ -114,7 +114,7 @@ Should be written as:
 ```
 4. Проверьте синтаксис сценария **secure-web.yml** в четвертый раз. Он не должен показывать никаких синтаксических ошибок. 
 
-4.1. Проверьте синтаксис сценария secure-web.yml. Он не должен показывать никаких синтаксических
+4.1. Проверьте синтаксис сценария **secure-web.yml**. Он не должен показывать никаких синтаксических
 ошибок.
 ``` console
 [student@workstation troubleshoot-review]$ ansible-playbook --syntax-check secure-web.yml
@@ -122,43 +122,48 @@ Should be written as:
 playbook: secure-web.yml
 ```
 5. Запустите **secure-web.yml** playbook. Ansible не может подключиться к **serverb.lab.example.com** . Устраните эту проблему. 
-5.1. Запустите secure-web.yml playbook. This will fail with an error.
-```
+5.1. Запустите **secure-web.yml** playbook. Это завершится неудачей с сообщением об ошибке.
+``` console
 [student@workstation troubleshoot-review]$ ansible-playbook secure-web.yml
 PLAY [create secure web service] ***********************************************
+
 TASK [Gathering Facts] *********************************************************
 fatal: [serverb.lab.example.com]: UNREACHABLE! => {"changed": false, "msg":
-"Failed to connect to the host via ssh: students@serverc.lab.example.com:
-Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password).",
-"unreachable": true}
+  "Failed to connect to the host via ssh: students@serverc.lab.example.com:
+  Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password).",
+  "unreachable": true}
+
 PLAY RECAP *********************************************************************
 serverb.lab.example.com : ok=0 changed=0 unreachable=1 failed=0
 ```
-5.2. Run the secure-web.yml playbook again, adding the -vvvv parameter to increase
-the verbosity of the output.
-Notice that Ansible appears to be connecting to serverc.lab.example.com instead
-of serverb.lab.example.com.
-```
+
+5.2. Запустите **secure-web.yml** playbook опять, добавьте параметр **-vvvv**, чтобы увеличить
+детализацию выходных данных.
+Обратите внимание, что Ansible, похоже, подключается к **serverc.lab.example.com** вместо
+того, чтобы к **serverb.lab.example.com**.
+``` console
 [student@workstation troubleshoot-review]$ ansible-playbook secure-web.yml -vvvv
 ...output omitted...
 TASK [Gathering Facts] *********************************************************
 task path: /home/student/troubleshoot-review/secure-web.yml:3
 <serverc.lab.example.com> ESTABLISH SSH CONNECTION FOR USER: students
 <serverc.lab.example.com> SSH: EXEC ssh -vvv -C -o ControlMaster=auto
--o ControlPersist=60s -o KbdInteractiveAuthentication=no -o
-PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o
-PasswordAuthentication=no -o User=students -o ConnectTimeout=10 -o ControlPath=/
+ -o ControlPersist=60s -o KbdInteractiveAuthentication=no -o
+ PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o
+ PasswordAuthentication=no -o User=students -o ConnectTimeout=10 -o ControlPath=/
 home/student/.ansible/cp/bc0c05136a serverc.lab.example.com '/bin/sh -c '"'"'echo
-~students && sleep 0'"'"''
+ ~students && sleep 0'"'"''
 ...output omitted...
 ```
-5.3. Correct the line in the inventory-lab file. Delete the ansible_host host variable
-so the file appears as shown below:
-```
+
+5.3. Исправьте строку в файле **inventory-lab**. Удалите переменную **ansible_host**, чтобы файл выглядел так, как показано ниже:
+``` json
 [webservers]
 serverb.lab.example.com
 ```
-1. Снова запустите **secure-web.yml** playbook. Ansible должен пройти аутентификацию как удаленный пользователь **devops** на управляемом хосте. Исправьте эту проблему. 
+
+6. Снова запустите **secure-web.yml** playbook. Ansible должен пройти аутентификацию как удаленный пользователь **devops** на управляемом хосте. Исправьте эту проблему. 
+
 6.1. Run the secure-web.yml playbook.
 ```
 [student@workstation troubleshoot-review]$ ansible-playbook secure-web.yml -vvvv
