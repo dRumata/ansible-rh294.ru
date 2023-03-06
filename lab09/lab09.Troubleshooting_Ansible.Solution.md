@@ -1,30 +1,31 @@
 LAB 9. Troubleshooting Ansible. Solution.
 
 1. В каталоге **~/troubleshoot-review** проверьте сценария **secure-web.yml**. Этот сценарий содержит один play, который настраивает Apache HTTPD с использованием TLS/SSL для хостов в группе **webservers**. Устраните проблему, о которой сообщается. 
-1.1. On workstation, change to the /home/student/troubleshoot-review project
-directory.
+
+1.1. На рабочей станции перейдите в каталог проекта **/home/student/troubleshoot-review**.
 ```console
 [student@workstation ~]$ cd ~/troubleshoot-review/
 ```
-1.2. Check the syntax of the secure-web.yml playbook. This playbook sets up Apache
-HTTPD with TLS/SSL for hosts in the webservers group when everything is correct.
-```console
+1.2. Проверьте синтаксис сценария **secure-web.yml**. Этот playbook настраивает Apache HTTPD с TLS/SSL для хостов в группе **webservers**, когда все правильно.
+``` console
 [student@workstation troubleshoot-review]$ ansible-playbook --syntax-check \
 > secure-web.yml
+
 ERROR! Syntax Error while loading YAML.
-mapping values are not allowed in this context
+    mapping values are not allowed in this context
+
 The error appears to have been in '/home/student/Ansible-course/troubleshootreview/
 secure-web.yml': line 7, column 30, but may
 be elsewhere in the file depending on the exact syntax problem.
+
 The offending line appears to be:
-vars:
-random_var: This is colon: test
-^ here
+
+    vars:
+      random_var: This is colon: test
+                               ^ here
 ```
-1.3. Correct the syntax issue in the definition of the random_var variable by adding double
-quotes to the This is colon: test string. The resulting change should appear as
-follows:
-```
+1.3. Исправьте синтаксическую проблему в определении переменной **random_var**, добавив двойные кавычки к тестовой строке **This is colon: test**. Результирующее изменение должно выглядеть следующим образом::
+``` yaml
 ...output omitted...
 vars:
 random_var: "This is colon: test"
@@ -63,7 +64,7 @@ dest: /var/www/vhosts/serverb-secure
 src: html/
 ...output omitted...
 ```
-3. Проверьте синтаксис сценария **secure-web.yml** в третий раз. Устраните проблему, о которой сообщается. 
+1. Проверьте синтаксис сценария **secure-web.yml** в третий раз. Устраните проблему, о которой сообщается. 
 3.1. Check the syntax of the secure-web.yml playbook.
 ```
 [student@workstation troubleshoot-review]$ ansible-playbook --syntax-check \
@@ -101,14 +102,14 @@ loop:
 - mod_ssl
 ...output omitted...
 ```
-4. Проверьте синтаксис сценария **secure-web.yml** в четвертый раз. Он не должен показывать никаких синтаксических ошибок. 
+1. Проверьте синтаксис сценария **secure-web.yml** в четвертый раз. Он не должен показывать никаких синтаксических ошибок. 
 4.1. Review the syntax of the secure-web.yml playbook. It should not show any syntax
 errors.
 ```[student@workstation troubleshoot-review]$ ansible-playbook --syntax-check \
 > secure-web.yml
 playbook: secure-web.yml
 ```
-5. Запустите **secure-web.yml** playbook. Ansible не может подключиться к **serverb.lab.example.com** . Устраните эту проблему. 
+1. Запустите **secure-web.yml** playbook. Ansible не может подключиться к **serverb.lab.example.com** . Устраните эту проблему. 
 5.1. Run the secure-web.yml playbook. This will fail with an error.
 ```
 [student@workstation troubleshoot-review]$ ansible-playbook secure-web.yml
@@ -145,7 +146,7 @@ so the file appears as shown below:
 [webservers]
 serverb.lab.example.com
 ```
-6. Снова запустите **secure-web.yml** playbook. Ansible должен пройти аутентификацию как удаленный пользователь **devops** на управляемом хосте. Исправьте эту проблему. 
+1. Снова запустите **secure-web.yml** playbook. Ansible должен пройти аутентификацию как удаленный пользователь **devops** на управляемом хосте. Исправьте эту проблему. 
 6.1. Run the secure-web.yml playbook.
 ```
 [student@workstation troubleshoot-review]$ ansible-playbook secure-web.yml -vvvv
@@ -176,7 +177,7 @@ hosts: webservers
 remote_user: devops
 ...output omitted...
 ```
-7. Запустите **secure-web.yml** playbook в третий раз. Устраните проблему, о которой сообщается. 
+1. Запустите **secure-web.yml** playbook в третий раз. Устраните проблему, о которой сообщается. 
 7.1. Run the secure-web.yml playbook.
 ```
 [student@workstation troubleshoot-review]$ ansible-playbook secure-web.yml -vvvv
@@ -209,7 +210,7 @@ remote_user: devops
 become: true
 ...output omitted...
 ```
-8. Запустите **secure-web.yml** playbook еще раз. Это должно завершиться успешно. Используйте специальную команду, чтобы убедиться, что служба httpd запущена.
+1. Запустите **secure-web.yml** playbook еще раз. Это должно завершиться успешно. Используйте специальную команду, чтобы убедиться, что служба httpd запущена.
 8.1. Run the secure-web.yml playbook.
 ```
 [student@workstation troubleshoot-review]$ ansible-playbook secure-web.yml
