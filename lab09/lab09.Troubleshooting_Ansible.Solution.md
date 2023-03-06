@@ -164,70 +164,71 @@ serverb.lab.example.com
 
 6. Снова запустите **secure-web.yml** playbook. Ansible должен пройти аутентификацию как удаленный пользователь **devops** на управляемом хосте. Исправьте эту проблему. 
 
-6.1. Run the secure-web.yml playbook.
-```
+6.1. Запустите **secure-web.yml** playbook.
+``` console
 [student@workstation troubleshoot-review]$ ansible-playbook secure-web.yml -vvvv
 ...output omitted...
 TASK [Gathering Facts] *********************************************************
 task path: /home/student/troubleshoot-review/secure-web.yml:3
 <serverb.lab.example.com> ESTABLISH SSH CONNECTION FOR USER: students
 <serverb.lab.example.com> EXEC ssh -C -vvv -o ControlMaster=auto
--o ControlPersist=60s -o Port=22 -o KbdInteractiveAuthentication=no
--o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey
--o PasswordAuthentication=no -o User=students -o ConnectTimeout=10
--o ControlPath=/home/student/.ansible/cp/ansible-ssh-%C -tt
-serverb.lab.example.com '/bin/sh -c '"'"'( umask 22 && mkdir -p "`
-echo $HOME/.ansible/tmp/ansible-tmp-1460241127.16-3182613343880 `" &&
-echo "` echo $HOME/.ansible/tmp/ansible-tmp-1460241127.16-3182613343880
-`" )'"'"''
+ -o ControlPersist=60s -o Port=22 -o KbdInteractiveAuthentication=no
+ -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey
+ -o PasswordAuthentication=no -o User=students -o ConnectTimeout=10
+ -o ControlPath=/home/student/.ansible/cp/ansible-ssh-%C -tt
+ serverb.lab.example.com '/bin/sh -c '"'"'( umask 22 && mkdir -p "`
+ echo $HOME/.ansible/tmp/ansible-tmp-1460241127.16-3182613343880 `" &&
+ echo "` echo $HOME/.ansible/tmp/ansible-tmp-1460241127.16-3182613343880
+ `" )'"'"''
 ...output omitted...
 fatal: [serverb.lab.example.com]: UNREACHABLE! => {
 ...output omitted...
 ```
-6.2. Edit the secure-web.yml playbook to make sure devops is the remote_user for
-the play. The first lines of the playbook should appear as follows:
-```
+6.2. Отредактируйте файл **secure-web.yml**, чтобы убедиться, что **devops** является **remote_user** для play. Первые строки сборника должны выглядеть следующим образом:
+``` yaml
 ---
 # start of secure web server playbook
 - name: create secure web service
-hosts: webservers
-remote_user: devops
+  hosts: webservers
+  remote_user: devops
 ...output omitted...
 ```
-1. Запустите **secure-web.yml** playbook в третий раз. Устраните проблему, о которой сообщается. 
-7.1. Run the secure-web.yml playbook.
-```
+7. Запустите **secure-web.yml** playbook в третий раз. Устраните проблему, о которой сообщается. 
+
+7.1. Запустите **secure-web.yml** playbook.
+``` console
 [student@workstation troubleshoot-review]$ ansible-playbook secure-web.yml -vvvv
 ...output omitted...
 failed: [serverb.lab.example.com] (item=mod_ssl) => {
-"ansible_loop_var": "item",
-"changed": false,
-"invocation": {
-"module_args": {
-"allow_downgrade": false,
-"autoremove": false,
+    "ansible_loop_var": "item",
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "allow_downgrade": false,
+            "autoremove": false,
 ...output omitted...
-"validate_certs": true
-}
-},
-"item": "mod_ssl",
-"msg": "This command has to be run under the root user.",
-"results": []
+            "validate_certs": true
+        }
+    },
+    "item": "mod_ssl",
+    "msg": "This command has to be run under the root user.",
+    "results": []
 }
 ...output omitted...
 ```
-7.2. Edit the play to make sure that it has become: true or become: yes set. The
-resulting change should appear as follows:
-```
+
+7.2. Отредактируйте сценарий, чтобы стало **become: true** или **become: yes**. Результирующее изменение должно выглядеть следующим образом:
+``` yaml
 ---
 # start of secure web server playbook
 - name: create secure web service
-hosts: webservers
-remote_user: devops
-become: true
+  hosts: webservers
+  remote_user: devops
+  become: true
 ...output omitted...
 ```
-1. Запустите **secure-web.yml** playbook еще раз. Это должно завершиться успешно. Используйте специальную команду, чтобы убедиться, что служба httpd запущена.
+
+8. Запустите **secure-web.yml** playbook еще раз. Это должно завершиться успешно. Используйте специальную команду, чтобы убедиться, что служба httpd запущена.
 8.1. Run the secure-web.yml playbook.
 ```
 [student@workstation troubleshoot-review]$ ansible-playbook secure-web.yml
