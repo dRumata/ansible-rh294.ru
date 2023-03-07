@@ -309,9 +309,8 @@ serverb.lab.example.com : ok=7 changed=5 unreachable=0 failed=0
 4. Создайте и запустите в группе хостов **webservers** playbook, который использует модуль **cron** для создания файла **/etc/cron.d/disk_usage** crontab, который планирует повторяющееся задание **cron**.
 Задание должно выполняться от имени пользователя **devops** каждые две минуты с 09:00 до 16:59 c понедельника по пятницу Задание должно добавить текущее использование диска в файл **/home/devops/disk_usage**.
 
-4.1. Create a new playbook, create_crontab_file.yml, and add the lines needed to
-start the play. It should target the managed hosts in the webservers group and enable
-privilege escalation.
+4.1. Создайте новый сборник playbook, **create_crontab_file.yml** и добавьте строки, необходимые в начале. Он должен быть нацелен на управляемые хосты в группе **webservers** и включать
+повышение привилегий.
 ``` yaml
 ---
 - name: Recurring cron job
@@ -319,10 +318,10 @@ privilege escalation.
   become: true
 ```
 
-4.2. Define a task that uses the cron module to schedule a recurring cron job.
+4.2. Определите задачу, которая использует модуль cron для планирования повторяющегося задания cron.
 >Note
->The cron module provides a name option to uniquely describe the crontab file entry and to ensure expected results. The description is added to the crontab file.
->For example, the name option is required if you are removing a crontab entry using state=absent. Additionally, when the default state, state=present is set, the name option prevents a new crontab entry from always being created, regardless of existing ones.
+>Модуль cron предоставляет параметр **name** для уникального описания записи в файле **crontab** и обеспечения ожидаемых результатов. Описание добавляется в файл crontab.
+>Например, параметр **name** требуется, если вы удаляете запись crontab, используя **state=absent**. Кроме того, когда установлено состояние по умолчанию, **state=present**, параметр name предотвращает постоянное создание новой записи crontab, независимо от существующих.
 ``` yaml
   tasks:
     - name: Crontab file exists
@@ -330,18 +329,15 @@ privilege escalation.
         name: Add date and time to a file
 ```
 
-4.3. Configure the job to run every two minutes between 09:00 and 16:59 on Monday
-through Friday.
+4.3. Настройте задание так, чтобы оно выполнялось каждые две минуты с **09:00** до **16:59** с **понедельника** по **пятницу**.
 ``` yaml
         minute: "*/2"
         hour: 9-16
         weekday: 1-5
 ```
 
-4.4. Use the cron_file parameter to use the /etc/cron.d/disk_usage crontab file
-instead of an individual user's crontab in /var/spool/cron/. A relative path will place
-the file in /etc/cron.d directory. If the cron_file parameter is used, you must also
-specify the user parameter.
+4.4. Используйте параметр **cron_file**, чтобы использовать файл crontab **/etc/cron.d/disk_usage** вместо crontab отдельного пользователя в **/var/spool/cron/**. Относительный путь поместит файл в **/etc/cron.d**. Если используется параметр **cron_file**, вы также должны
+указать параметр **user**.
 ``` yaml
         user: devops
         job: df >> /home/devops/disk_usage
@@ -349,8 +345,7 @@ specify the user parameter.
         state: present
 ```
 
-4.5. When completed, the playbook should appear as follows. Review the playbook for
-accuracy.
+4.5. После завершения, playbook должен выглядеть следующим образом.
 ``` yaml
 ---
 - name: Recurring cron job
@@ -369,7 +364,7 @@ accuracy.
         state: present
 ```
 
-4.6. Run the playbook.
+4.6. Выполните playbook.
 ``` console
 [student@workstation system-review]$ ansible-playbook create_crontab_file.yml
 
@@ -392,8 +387,7 @@ serverb.lab.example.com : ok=2 changed=1 unreachable=0 failed=0
 
 5. Создайте и запустите в группе хостов **webservers** учебное пособие, которое использует роль **linuxsystem-roles.network** для настройки резервного сетевого интерфейса **ens4** c IP-адресом **172.25.250.40/24**.
 
-5.1. Use ansible-galaxy to verify that system roles are available. If not, you need to
-install the rhel-system-roles package.
+5.1. С помощью ansible-galaxy проверьте, доступны ли системные роли. Если нет, вам нужно установить пакет rhel-system-roles.
 ``` console
 [student@workstation system-review]$ ansible-galaxy list
 # /usr/share/ansible/roles
@@ -411,9 +405,7 @@ install the rhel-system-roles package.
 [WARNING]: - the configured path /home/student/.ansible/roles does not exist.
 ```
 
-5.2. Create a playbook, network_playbook.yml, with one play that targets the
-webservers host group. Include the rhel-system-roles.network role in the
-roles section of the play.
+5.2. Создайте плейбук **network_playbook.yml** с одним play, нацеленным на группу хостов **webservers**. Включите роль **rhel-system-roles.network** в разделе **roles**.
 ``` yaml
 ---
 - name: NIC Configuration
