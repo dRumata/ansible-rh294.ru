@@ -1,4 +1,4 @@
-##Creating Roles and Using Dynamic Inventory
+##Creating Roles and Using Dynamic Inventory (LAB11c)
 
 Настройте свой проект Ansible на использование скрипта динамической инвентаризации **crinventory.py** и статический файл инвентаризации **inventory**. 
 Преобразуйте **ansible-vsftpd.yml** playbook в роль ansible-vsftpd, как указано ниже:

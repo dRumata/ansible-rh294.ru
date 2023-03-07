@@ -1,4 +1,4 @@
-##Creating Playbooks
+##Creating Playbooks (LAB11b)
 
 Создайте статический файл инвентаризации в **review-playbooks/inventory** с **serverc.lab.example.com** в группе **ftpclients**, и **serverb.lab.example.com** и **serverd.lab.example.com** в группе **ftpservers**. Создайте файл **review-playbooks/ansible.cfg**, который настраивает ваш Ansible-проект для использования этого инвентаризационного файла. Возможно, вам будет полезно заглянуть в системный файл **/etc/ansible/ansible.cfg** для получения справки по синтаксису.
 
