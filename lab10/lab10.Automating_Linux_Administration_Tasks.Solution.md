@@ -414,17 +414,14 @@ serverb.lab.example.com : ok=2 changed=1 unreachable=0 failed=0
     - rhel-system-roles.network
 ```
 
-5.3. Create the group_vars/webservers subdirectory.
+5.3. Создайте поддиректорию **group_vars/webservers**.
 ``` console
 [student@workstation system-review]$ mkdir -pv group_vars/webservers
 mkdir: created directory 'group_vars'
 mkdir: created directory 'group_vars/webservers'
 ```
 
-5.4. Create a new file network.yml to define role variables. Because these variable values
-apply to the hosts on the webservers host group, you need to create that file in
-the group_vars/webservers directory. Add variable definitions to support the
-configuration of the ens4 network interface. The file now contains:
+5.4. Создайте новый файл **network.yml** для определения переменных ролей. Поскольку значения этих переменных применяются к хостам в группе хостов **webservers**, вам нужно создать этот файл в каталоге **group_vars/webservers**. Добавьте определения переменных для поддержки конфигурации сетевого интерфейса **ens4**. Теперь файл содержит:
 ``` console
 [student@workstation system-review]$ vi group_vars/webservers/network.yml
 ---
@@ -436,7 +433,7 @@ address:
 - 172.25.250.40/24
 ```
 
-5.5. Run the playbook to configure the secondary network interface.
+5.5. Запустите сценарий для настройки вторичного сетевого интерфейса.
 ``` console
 [student@workstation system-review]$ ansible-playbook network_playbook.yml
 
