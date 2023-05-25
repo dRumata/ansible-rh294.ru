@@ -1,0 +1,6 @@
+[user@controlnode ~]$ ansible washington1.example.com --list-hosts
+hosts (1):
+washington1.example.com
+[user@controlnode ~]$ ansible washington01.example.com --list-hosts
+[WARNING]: provided hosts list is empty, only localhost is available
+hosts (0):
