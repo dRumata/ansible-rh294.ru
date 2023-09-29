@@ -1,9 +1,9 @@
 ---
 - name: Enable internel service
   hosts: serverb.lab.example.com
-  become: yes
+  become: true
   tasks:
-    - name: latest version of all required packages installed
+    - name: Latest version of all required packages installed
       yum:
         name:
           - firewalld
@@ -13,32 +13,32 @@
           - php-mysqlnd
         state: latest
 
-    - name: firewalld enabled and running
+    - name: Firewalld enabled and running
       service:
         name: firewalld
         enabled: true
         state: started
 
-    - name: firewalld permits http service
+    - name: Firewalld permits http service
       firewalld:
         service: http
         permanent: true
         state: enabled
         immediate: yes
 
-    - name: httpd enabled and running
+    - name: Enable httpd enabled and running
       service:
         name: httpd
         enabled: true
         state: started
 
-    - name: mariadb enabled and running
+    - name: Let mariadb enabled and running
       service:
         name: mariadb
         enabled: true
         state: started
 
-    - name: test php page is installed
+    - name: Test php page is installed
       get_url:
         url: "http://materials.example.com/labs/playbook-review/index.php"
         dest: /var/www/html/index.php
@@ -47,9 +47,9 @@
 
 - name: Test internet web server
   hosts: localhost
-  become: no
+  become: false
   tasks:
-    - name: connect to internet web server
+    - name: Connect to internet web server
       uri:
         url: http://serverb.lab.example.com
         status_code: 200

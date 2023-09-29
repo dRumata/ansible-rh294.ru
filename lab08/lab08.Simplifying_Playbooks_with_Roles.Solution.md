@@ -47,6 +47,15 @@ Once complete, the **roles/requirements.yml** file contains:
   version: v1.4
 ```
 
+Альтернативный вариант:
+```yaml
+- name: infra.apache
+  src: git@github.com:dRumata/infra_apache
+  scm: git
+  version: v1.4
+```
+
+
 4.3. Install the project dependencies.
 ```console
 [student@workstation role-review]$ ansible-galaxy install -r roles/requirements.yml -p roles
