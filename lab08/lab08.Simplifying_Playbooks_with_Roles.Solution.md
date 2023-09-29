@@ -47,14 +47,20 @@ Once complete, the **roles/requirements.yml** file contains:
   version: v1.4
 ```
 
-Альтернативный вариант:
+v
 ```yaml
 - name: infra.apache
   src: git@github.com:dRumata/infra_apache
   scm: git
   version: v1.4
 ```
-
+Альтернативный вариант2:
+```yaml
+- name: infra.apache
+  src: https://github.com/dRumata/infra_apache.git
+  scm: git
+  version: v1.4
+```
 
 4.3. Install the project dependencies.
 ```console
