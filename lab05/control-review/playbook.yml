@@ -61,8 +61,7 @@
 
   #Add handlers
   handlers:
-    - name: restart web service
+    - name: Restart web service
       service:
         name: "{{ web_service }}"
         state: restarted
-
