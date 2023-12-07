@@ -1,0 +1,45 @@
+---
+- name: Setup Lab git repo
+  hosts: workstation.lab.example.com
+  gather_facts: no
+  vars:
+    repo: infra
+    labname: role-review
+    role_tar_balls:
+      - name: apache
+        tar: apache.tar
+  tasks:
+    - name: Ensure git is installed
+      package:
+        name: git
+        state: present
+    - name: Ensure git user exists
+      user:
+        name: git
+        state: present
+    - name: Ensure apache directory exists
+      file:
+        path: /home/git/{{ repo }}
+        state: directory
+        mode: 0755
+        owner: git
+        group: git
+    - name: Set authorized_keys for student
+      authorized_key:
+        user: git
+        state: present
+        key: "{{ lookup('file', '/home/student/.ssh/lab_rsa.pub') }}"
+    - name: Remove old repo artifacts
+      file:
+        path: /home/git/student/{{ item.name }}
+        state: absent
+      loop: "{{ role_tar_balls }}"
+    - name: Unpack git repos
+      unarchive:
+        src: http://materials.example.com/labs/{{ labname }}/{{ item.tar }}
+        dest: /home/git/{{ repo }}
+        remote_src: yes
+        owner: git
+        group: git
+      loop: "{{ role_tar_balls }}"
+

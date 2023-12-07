@@ -1,0 +1,27 @@
+---
+- name: Cleanup from Apache Role
+  hosts: dev_webserver
+  gather_facts: no
+  tasks:
+    - name: Remove Apache
+      yum:
+        name: httpd
+        state: absent
+
+    - name: Remove Apache file
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /etc/httpd/conf.d/prod.conf
+        - /var/www/html/index.html
+
+    - name: Firewalld disable HTTP traffic
+      firewalld:
+        service: http
+        permanent: true
+        state: disabled
+        immediate: yes
+
+
+

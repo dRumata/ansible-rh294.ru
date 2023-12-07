@@ -1,0 +1,37 @@
+---
+- name: Cleanup from apache.developer_configs Role
+  hosts: dev_webserver
+  gather_facts: no
+  tasks:
+
+    - name: Remove Apache file
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /srv/jdoe
+        - /srv/jdoe2
+        - /etc/httpd/conf.d/developer_jdoe.conf
+        - /etc/httpd/conf.d/developer_jdoe2.conf
+
+    - name: Remove user accounts
+      user:
+        name: "{{ item }}"
+        state: absent
+        force: yes
+        remove: yes
+      loop:
+        - jdoe
+        - jdoe2
+
+    - name: Remove custom ports
+      firewalld:
+        port: "{{ item }}/tcp"
+        state: disabled
+        permanent: yes
+        immediate: yes
+      loop:
+        - 9081
+        - 9082
+
+
