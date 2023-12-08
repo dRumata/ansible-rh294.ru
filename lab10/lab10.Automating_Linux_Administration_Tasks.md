@@ -1,6 +1,6 @@
 LAB 10. Automating Linux Administration Tasks.
 
-1. Создайте и запустите в группе хостов **webservers** playbook, который настраивает внутренний репозиторий Yum, расположенный по адресу http://materials.example.com/yum/repository, и устанавливает пакет **example-motd**, доступный в этом репозитории. Все пакеты RPM подписаны организационной парой ключей GPG. Открытый ключ GPG доступен по адресу http://materials.example.com/yum/repository/RPM-GPG-KEY-example
+1. Создайте и запустите в группе хостов **webservers** playbook, который настраивает репозиторий Yum, расположенный по адресу https://download.vscodium.com/rpms/, и устанавливает пакет **codium**, доступный в этом репозитории. Все пакеты RPM подписаны организационной парой ключей GPG. Открытый ключ GPG доступен по адресу https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
    
 2. Создайте и запустите в группе хостов **webservers** playbook, который создает группу пользователей **webadmin**, и добавьте в эту группу двух пользователей, **ops1** и **ops2**.
 

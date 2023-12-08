@@ -1,6 +1,6 @@
 LAB 10. Automating Linux Administration Tasks. Solution.
 
-1. Создайте и запустите в группе хостов **webservers** playbook, который настраивает внутренний репозиторий Yum, расположенный по адресу http://materials.example.com/yum/repository, и устанавливает пакет **example-motd**, доступный в этом репозитории. Все пакеты RPM подписаны организационной парой ключей GPG. Открытый ключ GPG доступен по адресу http://materials.example.com/yum/repository/RPM-GPG-KEY-example
+1. Создайте и запустите в группе хостов **webservers** playbook, который настраивает внутренний репозиторий Yum, расположенный по адресу https://download.vscodium.com/rpms/, и устанавливает пакет **codium**, доступный в этом репозитории. Все пакеты RPM подписаны организационной парой ключей GPG. Открытый ключ GPG доступен по адресу https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
 1.1. Как пользователь **student** на **workstation** перейдите в рабочий каталог **/home/student/system-review**.
 ``` console
 [student@workstation ~]$ cd ~/system-review
@@ -21,19 +21,19 @@ Playbook содержит следующее:
   tasks:
     - name: Ensure Example Repo exists
       yum_repository:
-        name: example-internal
-        description: Example Inc. Internal YUM repo
-        file: example
-        baseurl: http://materials.example.com/yum/repository/
+        name: download.vscodium.com
+        description: gitlab.com_paulcarroty_vscodium_rep 
+        file: vscodium
+        baseurl: https://download.vscodium.com/rpms/
         gpgcheck: yes
 ```
 
-1.3. Добавьте в play вторую задачу, которая использует модуль **rpm_key**, чтобы убедиться, что открытый ключ хранилища присутствует на удаленном хосте. URL-адрес открытого ключа репозитория является http://materials.example.com/yum/repository/RPM-GPG-KEY-example .
+1.3. Добавьте в play вторую задачу, которая использует модуль **rpm_key**, чтобы убедиться, что открытый ключ хранилища присутствует на удаленном хосте. URL-адрес открытого ключа репозитория является https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg.
 Вторая задача выглядит следующим образом:
 ``` yaml
     - name: Ensure Repo RPM key is Installed
       rpm_key:
-        key: http://materials.example.com/yum/repository/RPM-GPG-KEY-example
+        key: https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
         state: present
 ```
 1.4. Добавьте третью задачу для установки пакета **example-motd**, доступного во внутреннем репозитории **Yum**.
@@ -41,7 +41,7 @@ Playbook содержит следующее:
 ``` yaml
     - name: Install Example motd package
       yum:
-        name: example-motd
+        name: codium
         state: present
 ```
 1.5. Запустите playbook:
@@ -66,7 +66,7 @@ PLAY RECAP *********************************************************************
 serverb.lab.example.com : ok=4 changed=3 unreachable=0 failed=0
 ```
 
-2. Создайте и запустите в группе хостов **webservers** playbook, который создает группу пользователей **webadmin**, и добавьте в эту группу двух пользователей, **ops1** и **ops2**.
+1. Создайте и запустите в группе хостов **webservers** playbook, который создает группу пользователей **webadmin**, и добавьте в эту группу двух пользователей, **ops1** и **ops2**.
 
 2.1. Создайте файл переменных **vars/users_vars.yml**, который определяет двух пользователей, **ops1** и **ops2**, которые принадлежат к группе пользователей **webadmin**. Возможно, вам потребуется создать подкаталог **vars**
 

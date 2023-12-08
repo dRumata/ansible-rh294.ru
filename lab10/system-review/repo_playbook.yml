@@ -4,20 +4,20 @@
   tasks:
     - name: Ensure Example Repo exists
       yum_repository:
-        name: example-internal
-        description: Example Inc. Internal YUM repo
-        file: example
-        baseurl: http://materials.example.com/yum/repository/
+        name: download.vscodium.com
+        description: gitlab.com_paulcarroty_vscodium_rep 
+        file: vscodium
+        baseurl: https://download.vscodium.com/rpms/
         gpgcheck: yes
 
     - name: Ensure Repo RPM key is Installed
       rpm_key:
-        key: http://materials.example.com/yum/repository/RPM-GPG-KEY-example
+        key: https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
         state: present
 
     - name: Install Example motd package
       yum:
-        name: example-motd
+        name: codium
         state: present
 
 
