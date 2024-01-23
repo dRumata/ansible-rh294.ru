@@ -3,8 +3,13 @@
   hosts: serverb.lab.example.com
   become: true
   tasks:
-    - name: Create user
-      mysql_user:
-        name: user1
-        password: pass
-        host: localhost
+  - name: install mysql-python
+    dnf:
+      name: python3-mysqlclient
+      state: latest
+
+  - name: Create user
+    mysql_user:
+      name: user1
+      password: pass
+      host: localhost
