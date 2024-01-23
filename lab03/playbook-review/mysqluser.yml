@@ -1,0 +1,10 @@
+---
+- name: Enable internel service
+  hosts: serverb.lab.example.com
+  become: true
+  tasks:
+    - name: Create user
+      mysql_user:
+        name: user1
+        password: pass
+        host: localhost
