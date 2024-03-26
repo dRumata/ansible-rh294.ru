@@ -1,0 +1,23 @@
+---
+# This is a simple playbook with two plays
+- name: first play
+  hosts: web.example.com
+  become: true
+  tasks:
+    - name: first task
+      yum:
+        name: httpd
+        status: present
+    - name: second task
+      service:
+        name: httpd
+        enabled: true
+
+- name: Second play
+  hosts: database.example.com 
+  tasks:
+    - name: first task
+      service:
+        name: postgresql
+        state: reloaded
+        
