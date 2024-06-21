@@ -1,2 +1,2 @@
 [webservers]
-serverb.lab.example.com ansible_host=serverc.lab.example.com
+serverb.lab.example.com ansible_host=10.10.10.10
