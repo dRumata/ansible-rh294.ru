@@ -1,0 +1,17 @@
+---
+- name: Удалить все пакеты, соответствующие шаблону http*
+  hosts: s*
+  become: true
+  tasks:
+    - name: Удалить пакеты по шаблону
+      dnf:
+        name: "http*"
+        state: absent
+
+    - name: очистить директории
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /etc/httpd/
+        - /var/www/html/
