@@ -1,19 +1,19 @@
 ---
 - name: Clone github
   hosts: localhost
-  become: true
+  become: false
   gather_facts: no  # Отключаем сбор фактов
   tasks:
   - name: Ensure /opt/github directory exists
     file:
-      path: /opt/github
+      path: /tmp/github
       state: directory
       mode: '0755'  # Устанавливаем разрешения для каталога
 
   - name: Clone the repository
     git:
       repo: 'https://github.com/dRumata/ansible-rh294.ru'
-      dest: /opt/github
+      dest: /tmp/github
       clone: yes
       update: yes  # Обновление репозитория, если он уже существует
 
@@ -44,15 +44,15 @@
   vars:
     # Заранее определяем массив с парами исходных и целевых путей
     directories_to_copy:
-      - { src: "/opt/github/lab02/deploy-review", dest: "/var/www/html/labs/deploy-review" }
-      - { src: "/opt/github/lab03/playbook-review", dest: "/var/www/html/labs/playbook-review" }
-      - { src: "/opt/github/lab04/data-review", dest: "/var/www/html/labs/data-review"}
-      - { src: "/opt/github/lab05/control-review", dest: "/var/www/html/labs/control-review"}
-      - { src: "/opt/github/lab06/file-review", dest: "/var/www/html/labs/file-review"}
-      - { src: "/opt/github/lab07/projects-review", dest: "/var/www/html/labs/projects-review"}
-      - { src: "/opt/github/lab08/role-review", dest: "/var/www/html/labs/role-review"}
-      - { src: "/opt/github/lab09/troubleshoot-review", dest: "/var/www/html/labs/troubleshoot-review"}
-      - { src: "/opt/github/lab10/system-review", dest: "/var/www/html/labs/system-review"}
+      - { src: "/tmp/github/lab02/deploy-review", dest: "/var/www/html/labs/deploy-review" }
+      - { src: "/tmp/github/lab03/playbook-review", dest: "/var/www/html/labs/playbook-review" }
+      - { src: "/tmp/github/lab04/data-review", dest: "/var/www/html/labs/data-review"}
+      - { src: "/tmp/github/lab05/control-review", dest: "/var/www/html/labs/control-review"}
+      - { src: "/tmp/github/lab06/file-review", dest: "/var/www/html/labs/file-review"}
+      - { src: "/tmp/github/lab07/projects-review", dest: "/var/www/html/labs/projects-review"}
+      - { src: "/tmp/github/lab08/role-review", dest: "/var/www/html/labs/role-review"}
+      - { src: "/tmp/github/lab09/troubleshoot-review", dest: "/var/www/html/labs/troubleshoot-review"}
+      - { src: "/tmp/github/lab10/system-review", dest: "/var/www/html/labs/system-review"}
 
   tasks:
     - name: Latest version of all required packages installed
