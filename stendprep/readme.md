@@ -8,11 +8,7 @@ Host 172.16.195.*
         StrictHostKeyChecking no
 ```
 
-Здесь 172.16.195.* - адреса всех ws; ansible270125_rsa имя скопированого id_rsa
+> Здесь 172.16.195.* - адреса всех ws; ansible270125_rsa имя скопированого id_rsa
 
-3. На localhost добавить пользователя devops и добавть его в /etc/sudoers 
-```
-devops  ALL=(ALL)       NOPASSWD: ALL
-```
-4. Заполнить inventory адресами машин ws слушателей
-5. Запустить prep.yml
+3. Заполнить inventory адресами машин ws слушателей
+4. 3апустить prep.yml
