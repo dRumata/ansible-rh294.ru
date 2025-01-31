@@ -10,7 +10,7 @@
       import_tasks: tasks/firewall_tasks.yml
 
   handlers:
-    - name: restart httpd
-      service:
+    - name: Restart httpd
+      ansible.builtin.service:
         name: httpd
         state: restarted
