@@ -1,0 +1,8 @@
+# Автоматически сгенерированный конфиг
+
+{% for service in services %}
+[{{ service.name }}]
+port = {{ service.port }}
+enabled = {{ 'yes' if service.enabled else 'no' }}
+
+{% endfor %}

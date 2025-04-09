@@ -1,0 +1,19 @@
+---
+- name: Пример использования цикла в Jinja2
+  hosts: all
+  vars:
+    services:
+      - name: nginx
+        port: 80
+        enabled: true
+      - name: ssh
+        port: 22
+        enabled: true
+      - name: redis
+        port: 6379
+        enabled: false
+  tasks:
+    - name: Сгенерировать конфиг
+      template:
+        src: services.conf.j2
+        dest: /tmp/services.conf
