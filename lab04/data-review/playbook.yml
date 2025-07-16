@@ -98,6 +98,7 @@
         return_content: yes
         status_code: 200
       register: auth_test
+      no_log: true #pv: for secure reason
 
     - debug:
         var: auth_test.content
