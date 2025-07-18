@@ -1,6 +1,6 @@
 ---
 - name: Install httpd
-  yum:
+  ansible.builtin.dnf:
     name: httpd
     state: latest
 

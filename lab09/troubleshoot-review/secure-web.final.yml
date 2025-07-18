@@ -2,15 +2,16 @@
 # start of secure web server playbook
 - name: create secure web service
   hosts: webservers
-  remote_user: students
+  remote_user: devops
+  become: true
   vars:
-    random_var: This is colon: test
+    random_var: "This is colon: test"
 
   tasks:
     - block:
         - name: install web server packages
           yum:
-            name: {{ item }}
+            name: "{{ item }}"
             state: latest
           notify:
             - restart services
@@ -35,11 +36,11 @@
           args:
             creates: /etc/pki/tls/certs/serverb.lab.example.com.crt
 
-         - name: start and enable web services
-           service:
-             name: httpd
-             state: started
-             enabled: yes
+        - name: start and enable web services
+          service:
+            name: httpd
+            state: started
+            enabled: yes
 
         - name: deliver content
           copy:
