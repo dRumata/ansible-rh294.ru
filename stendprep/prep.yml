@@ -44,15 +44,15 @@
   vars:
     # Заранее определяем массив с парами исходных и целевых путей
     directories_to_copy:
-      - { src: "/tmp/github/lab02/deploy-review", dest: "/var/www/html/labs/deploy-review" }
-      - { src: "/tmp/github/lab03/playbook-review", dest: "/var/www/html/labs/playbook-review" }
-      - { src: "/tmp/github/lab04/data-review", dest: "/var/www/html/labs/data-review"}
-      - { src: "/tmp/github/lab05/control-review", dest: "/var/www/html/labs/control-review"}
-      - { src: "/tmp/github/lab06/file-review", dest: "/var/www/html/labs/file-review"}
-      - { src: "/tmp/github/lab07/projects-review", dest: "/var/www/html/labs/projects-review"}
-      - { src: "/tmp/github/lab08/role-review", dest: "/var/www/html/labs/role-review"}
-      - { src: "/tmp/github/lab09/troubleshoot-review", dest: "/var/www/html/labs/troubleshoot-review"}
-      - { src: "/tmp/github/lab10/system-review", dest: "/var/www/html/labs/system-review"}
+      - { src: "/tmp/github/lab02/deploy-review", dest: "/var/www/html/labs/" }
+      - { src: "/tmp/github/lab03/playbook-review", dest: "/var/www/html/labs/" }
+      - { src: "/tmp/github/lab04/data-review", dest: "/var/www/html/labs/"}
+      - { src: "/tmp/github/lab05/control-review", dest: "/var/www/html/labs/"}
+      - { src: "/tmp/github/lab06/file-review", dest: "/var/www/html/labs/"}
+      - { src: "/tmp/github/lab07/projects-review", dest: "/var/www/html/labs/"}
+      - { src: "/tmp/github/lab08/role-review", dest: "/var/www/html/labs/"}
+      - { src: "/tmp/github/lab09/troubleshoot-review", dest: "/var/www/html/labs/"}
+      - { src: "/tmp/github/lab10/system-review", dest: "/var/www/html/labs/"}
 
   tasks:
     - name: Latest version of all required packages installed
