@@ -40,6 +40,13 @@ sudo firewall-cmd --reload
 ## Доступ к интерфейсу
 Откройте в браузере `http://your-server-ip:8080`, введите пароль из `~/.config/code-server/config.yaml`. Для HTTPS настройте Nginx как reverse proxy с Let's Encrypt.
 
+## Установка ansible-lint
+
+https://docs.ansible.com/projects/lint/installing/
+
+
+
+
 Сылки
 
 1: https://habr.com/ru/companies/ruvds/articles/534240/
